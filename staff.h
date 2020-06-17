@@ -65,6 +65,31 @@ bool DeleteStaffIsSuccess(PTR_LIST_STAFF &l, char* id)
 	l->n--;
 	return true;
 }
+void SwapStaff(PTR_STAFF &a, PTR_STAFF &b)
+{
+	PTR_STAFF temp = a;
+	a = b;
+	b = temp;
+}
+void SortStaff(PTR_LIST_STAFF &l)
+{
+	if(l->n < 0) return; // ds rong;
+	for(int i = 0; i < l->n; i++)
+	{
+		for(int j = i + 1; j <= l->n; j++)
+		{
+			if(strcmp(l->listStaff[i]->last_name, l->listStaff[j]->last_name) > 0){
+				SwapStaff(l->listStaff[i], l->listStaff[j]);
+			}
+			
+			if(strcmp(l->listStaff[i]->last_name, l->listStaff[j]->last_name) == 0){
+				if(strcmp(l->listStaff[i]->first_name, l->listStaff[j]->first_name) > 0){
+					SwapStaff(l->listStaff[i], l->listStaff[j]);
+				}
+			}
+		}
+	}
+}
 
 void OutputStaff(PTR_STAFF st, int thuTu)
 {
@@ -311,6 +336,7 @@ void ChangePageManageStaff(PTR_LIST_STAFF l)
 {
 	clrscr();
 	Gotoxy(X_TITLE, Y_TITLE); cout << "QUAN LY NHAN VIEN";
+	SortStaff(l);
 	OutputListStaffPerPage(l, (pageNowStaff -1) * QUANTITY_PER_PAGE);
 	Display(keyDisplayStaff, sizeof(keyDisplayStaff) / sizeof(string));
 }
@@ -321,6 +347,7 @@ void MenuManageStaff(PTR_LIST_STAFF &l)
 		clrscr();
 		pageNowStaff = 1;
 		totalPageStaff = (l->n - 1) / QUANTITY_PER_PAGE + 1;
+		SortStaff(l);
 		OutputListStaffPerPage(l, 0);
 		
 		Display(keyDisplayStaff, sizeof(keyDisplayStaff) / sizeof(string));
@@ -387,7 +414,7 @@ void MenuManageStaff(PTR_LIST_STAFF &l)
 						
 						DisplayEdit(keyDisplayStaff, sizeof(keyDisplayStaff) / sizeof(string), 35);
 						inputStaff(l, l->listStaff[k], true);
-						OutputListStaffPerPage(l, (pageNowStaff - 1) * QUANTITY_PER_PAGE);
+						ChangePageManageStaff(l);
 						Gotoxy(X_NOTIFY, Y_NOTIFY);
 						cout << "Sua thanh cong";
 					}

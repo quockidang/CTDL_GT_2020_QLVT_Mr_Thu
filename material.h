@@ -43,9 +43,9 @@ bool IsEmty(TREE_MATERIAL t)
 // check ma VT da ton tai
 bool CheckIDExists(TREE_MATERIAL t, char* id)
 {
-	if( t != NULL)
+	if( t != NULL) // cay k rong
 	{
-		if(strcmp(id, t->_material.id) == 0)
+		if(strcmp(id, t->_material.id) == 0) // string compare
 			return true;
 		else if( strcmp(id, t->_material.id) < 0)
 			CheckIDExists(t->pLeft, id);
@@ -98,7 +98,7 @@ void InsertMaterialToTree(TREE_MATERIAL &t, MATERIAL data)
 }
 
 void QuickSort(int left, int right, MATERIAL arr[]) {	
-	MATERIAL key = arr[(left + right) / 2];
+	MATERIAL key = arr[(left + right) / 2]; 
 	MATERIAL temp;
 	int i = left;
 	int j = right;

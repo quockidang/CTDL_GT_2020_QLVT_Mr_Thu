@@ -1,7 +1,7 @@
 #ifndef _PROCESSS_H
 #define _PROCESSS_H
 #include <fstream>//doc ghi file
-
+#include "bill.h"
 #include "staff.h"
 #include "material.h"
 
@@ -167,23 +167,62 @@ void LoadStaffFromFile(PTR_LIST_STAFF &l)
 				getline(inFile, temp);
 				inFile.getline(bill.type, 2, '\n');
 				
-				AddTailListBill(l->listStaff[i]->list_bill, bill);
+				
 				
 				inFile >> nBillDetail;
-			//	InitListBillDetails(l->listStaff[i]->list_bill)
+				InitListBillDetails(bill.list_billdetails);
 				
 				BILL_DETAILS bill_detail;
 				for(int k = 0; k < nBillDetail ; k++)
 				{
 						getline(inFile, temp);
+						inFile.getline(bill_detail.id, 10, '\n');
+						
+						inFile >> bill_detail.price;
+						inFile >> bill_detail.quantity;
+						inFile >> bill_detail.VAT;
+						
+						AddTailListBillDetails(bill.list_billdetails, bill_detail);
 				}
 				
+				AddTailListBill(l->listStaff[i]->list_bill, bill);
 			}
-			
+		++l->n;
 		}
 	}
 	
+	inFile.close();
 }
+
+// Create Order
+
+void CreateOrder(PTR_LIST_STAFF &l, TREE_MATERIAL &t)
+{
+	backMenu:
+		
+		string MaNV;
+		Gotoxy(X_ADD, Y_ADD);
+		cout << "Nhap vao ma nhan vien:   ";
+		cin >> MaNV;
+		
+		PTR_STAFF st = FindStaffByID(l, (char *)MaNV.c_str());
+		
+		if(st == NULL)
+		{
+			Gotoxy(X_NOTIFY, Y_NOTIFY);
+			cout << "Ma NV khong ton tai";
+			Gotoxy(X_ADD, Y_ADD);
+			cout << setw(60) << setfill(' ') << " ";
+			goto backMenu;
+		} 
+		clrscr();
+		
+		BILL bill;
+		DisplayEdit(keyDisplayBill, sizeof(keyDisplayBill) / sizeof(string), 35);
+		InputBill(st->list_bill, bill, false);
+	
+}
+
 
 void Main_Menu(PTR_LIST_STAFF &ls, TREE_MATERIAL &t)
 {
@@ -197,7 +236,7 @@ void Main_Menu(PTR_LIST_STAFF &ls, TREE_MATERIAL &t)
 		{
 			case 1: MenuManageStaff(ls); break;
 			case 2: MenuMaterialManager(t); break;
-			case 3:  break;
+			case 3:  CreateOrder(ls, t);
 			case 4:  break;
 			case 5: break;
 			case 6:  break;

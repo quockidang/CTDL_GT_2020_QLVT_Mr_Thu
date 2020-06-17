@@ -391,7 +391,7 @@ void InputBill (LIST_BILL &l, BILL &bl, bool isEdited = false)
 		}
 		else
 		{
-			if (ordinal == 4)
+			if (ordinal == 2)
 				isMoveUp = true; //block move down
 			ordinal++;
 		}

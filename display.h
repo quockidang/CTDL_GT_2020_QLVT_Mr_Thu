@@ -12,8 +12,8 @@ const int Down = 80;
 const int MAXLIST =100;
 char thucdon [so_item][50] = {"1. Quan Li Nhan Vien               ",
 			                  "2. Quan Li Vt TU                   ",
-			                  "3. .............      ",
-							"4. .............                ",
+			                  "3. Lap hoa don      ",
+								"4. .............                ",
 								"5. .............                 ",
 								"6. .............. ",
 								"7...................   ",
@@ -75,7 +75,7 @@ do {
 
 //main menu-----
 
-string keyDisplayMaterial[4] = { "Ma VT", "Ten Vat Tu","Don VT","So luong ton" };
+string keyDisplayMaterial[4] = { "Ma VT:", "Ten VT:","Don VT:","So LT:" };
 
 string keyStaticMaterial[5] = {"STT", "Ten VE", "CMND", "Ho Ten", "Gioi Tinh"};
 
@@ -194,9 +194,7 @@ void DeleteMenuAdd()
 string keyDisplayStaff[4] = { "Ma NV", "Ho", "Ten", "Gioi tinh" };
 string keyDisplayBill[3] = { "Ma HD", "Ngay Lap", "Loai"};
 
-string keyDisplayTicket[1] = {"Ten Ve"};
-string keyDisplayEditIdPass[1] = {"CMND"};
-//string keyDisplayPassenger[4] = { "CMND", "Ho","Ten","Gioi tinh" };
+
 int xKeyDisplay[7] = {1,20,45,63,80,95, 107};
 
 

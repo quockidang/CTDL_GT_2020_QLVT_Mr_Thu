@@ -6,11 +6,13 @@ int main(int argc, char** argv) {
 	
 	TREE_MATERIAL t;
 	InitTreeMaterial(t);
-//	LoadMaterialFromFile(t);
-	
+	LoadMaterialFromFile(t);
+
 	PTR_LIST_STAFF ls = new LIST_STAFF;
+	LoadStaffFromFile(ls);
 	Main_Menu(ls, t);
 
-//	SaveMaterialToFile(t);	
+	SaveStaffToFile(ls);
+	SaveMaterialToFile(t);	
 	return 0; 
 }
