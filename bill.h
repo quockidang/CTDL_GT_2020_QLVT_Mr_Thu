@@ -1,7 +1,8 @@
 #ifndef _BILL_H
 #define _BILL_H
 
-#include "display.h"
+
+#include "material.h"
 #include "billdetails.h"
 
 struct Bill {
@@ -99,7 +100,7 @@ int FindIndexBill(LIST_BILL l, char* id)
 			return index;
 		}
 	}
-	return 0;
+	return index;
 }
 
 NODE_BILL* FindBillByOrdinal(LIST_BILL l, int ordinal)
@@ -345,90 +346,5 @@ void OutputListBillPerPage (LIST_BILL l, int indexBegin)
 	return;
 }
 
-void InputBill (LIST_BILL &l, BILL &bl, bool isEdited = false)
-{
-	ShowCur(true);
-	int ordinal = 0;
-	bool isMoveUp = false;
-	bool isSave = false;
-	bool idIsExist = false;
-	
-	string id, type;
-	DATETIME dt;
-	
-	Gotoxy(X_NOTIFY, Y_NOTIFY + 1);
-	cout << "F10 luu ngay gio";
-	
 
-	
-	while(true)
-	{
-		// input
-		switch(ordinal)
-		{
-			case 0:
-				CheckMoveAndValidateID(id, isMoveUp, ordinal, isSave, 20, 20);
-				if(FindBill(l, (char*)id.c_str()) == NULL)
-				{
-					idIsExist = false;
-					break;
-				}
-				idIsExist = true;
-				break;
-			case 1:
-				InputDatime(dt);
-				break;
-			case 2:
-				CheckMoveAndValidateTypeBill(type, isMoveUp, ordinal, isSave, 20, 21);
-				break;
-		}
-		
-		if (isMoveUp)
-		{
-			if (ordinal == 0)
-				isMoveUp = false; //block move up
-			ordinal--;
-		}
-		else
-		{
-			if (ordinal == 2)
-				isMoveUp = true; //block move down
-			ordinal++;
-		}
-		//--end move
-		
-		if(isSave)
-		{
-			//binding data
-			strcpy(bl.id, id.c_str());
-			strcpy(bl.type, type.c_str());
-			bl.created_at = dt;
-			
-			Gotoxy(X_NOTIFY, Y_NOTIFY);
-			cout << setw(50) << setfill(' ') << " ";
-			if(!DateTimeIsValid(bl.created_at))
-			{
-				Gotoxy(X_NOTIFY, Y_NOTIFY);
-				cout << "Ngay gio khong hop le. Phai lon hon gio he thong";
-			}else if(strlen(bl.id) == 0 || strlen(bl.type) == 0)
-			{
-				Gotoxy(X_NOTIFY, Y_NOTIFY);
-				cout << "Cac truong du lieu khong dc de trong";
-			}
-			else if (idIsExist)
-			{
-				Gotoxy(X_NOTIFY, Y_NOTIFY);
-				cout << "Ma HD khong duoc trung";
-			}else
-			{
-				InsertOrderForListBill(l, bl);
-				DeleteMenuAdd();
-				return;	
-			}
-			isSave = false;
-		}else
-			isSave = false;
-	}
-	ShowCur(false);
-}
 #endif

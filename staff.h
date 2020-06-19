@@ -47,6 +47,7 @@ int FindIndexStaff(PTR_LIST_STAFF l, char* id)
 	
 }
 
+
 bool DataStaffIsEmty(PTR_STAFF st)
 {
 	if(strlen(st->first_name) == 0 || strlen(st->last_name) == 0 || strlen(st->id) == 0 || st->sex < 0)
@@ -59,8 +60,10 @@ bool DeleteStaffIsSuccess(PTR_LIST_STAFF &l, char* id)
 	int index = FindIndexStaff(l, id);
 	if(index == -1) return false;
 	
+	if(l->listStaff[index]->list_bill.pHead != NULL) return false;
+	
 	for(int i = index; i < l->n; i++)
-		l->listStaff[i] = l->listStaff[i+ 1];
+		l->listStaff[i] = l->listStaff[i + 1];
 	
 	l->n--;
 	return true;
@@ -73,7 +76,7 @@ void SwapStaff(PTR_STAFF &a, PTR_STAFF &b)
 }
 void SortStaff(PTR_LIST_STAFF &l)
 {
-	if(l->n < 0) return; // ds rong;
+	if(l->n < 0 || l == NULL) return; // ds rong;
 	for(int i = 0; i < l->n; i++)
 	{
 		for(int j = i + 1; j <= l->n; j++)
@@ -104,7 +107,7 @@ void OutputStaff(PTR_STAFF st, int thuTu)
 
 void OutputListStaffPerPage(PTR_LIST_STAFF l, int indexBegin)
 {
-	if(l == NULL) return;
+	if(l == NULL || l->n == -1) return;
 	for(int i = 0; i + indexBegin <= l->n && i < QUANTITY_PER_PAGE; i++)
 		OutputStaff(l->listStaff[i + indexBegin], i * 2);
 	
@@ -295,7 +298,7 @@ void inputStaff(PTR_LIST_STAFF &l, PTR_STAFF &st, bool isEdited = false)
 				strcpy(temp->last_name, last_name.c_str());
 				temp->sex = sex;
 				
-				if(FindStaffByID(l, temp->id) != NULL)
+				if(FindStaffByID(l, temp->id) != NULL && isEdited == false)
 				{
 					Gotoxy(X_NOTIFY, Y_NOTIFY); cout << "Nhan Vien da ton tai";
 				}else if(DataStaffIsEmty(temp) == true)
@@ -315,6 +318,8 @@ void inputStaff(PTR_LIST_STAFF &l, PTR_STAFF &st, bool isEdited = false)
 					}
 					else
 					{
+						InitListBill(st->list_bill);
+					//	InitListBillDetails(st->list_bill.pHead->_bill->list_billdetails);
 						l->listStaff[++l->n] = new STAFF;
 						l->listStaff[l->n] = st;
 					}
@@ -336,7 +341,7 @@ void ChangePageManageStaff(PTR_LIST_STAFF l)
 {
 	clrscr();
 	Gotoxy(X_TITLE, Y_TITLE); cout << "QUAN LY NHAN VIEN";
-	SortStaff(l);
+	if(l->n != -1) SortStaff(l);
 	OutputListStaffPerPage(l, (pageNowStaff -1) * QUANTITY_PER_PAGE);
 	Display(keyDisplayStaff, sizeof(keyDisplayStaff) / sizeof(string));
 }
@@ -347,7 +352,7 @@ void MenuManageStaff(PTR_LIST_STAFF &l)
 		clrscr();
 		pageNowStaff = 1;
 		totalPageStaff = (l->n - 1) / QUANTITY_PER_PAGE + 1;
-		SortStaff(l);
+		if(l->n != -1) SortStaff(l);
 		OutputListStaffPerPage(l, 0);
 		
 		Display(keyDisplayStaff, sizeof(keyDisplayStaff) / sizeof(string));
@@ -386,7 +391,8 @@ void MenuManageStaff(PTR_LIST_STAFF &l)
 						cout << setw(50) << setfill(' ') << " ";
 						if(key == ENTER)
 						{
-							if(!DeleteStaffIsSuccess(l, l->listStaff[k]->id))
+							bool isDeleted = DeleteStaffIsSuccess(l, l->listStaff[k]->id);
+							if(!isDeleted)
 							{
 								Gotoxy(X_NOTIFY, Y_NOTIFY);
 								cout << "Xoa that bai."<<endl;
@@ -399,7 +405,7 @@ void MenuManageStaff(PTR_LIST_STAFF &l)
 							{
 								clrscr();
 								if((l->n + 1) % QUANTITY_PER_PAGE == 0) pageNowStaff--;
-								totalPageStaff = (l->n + 1) / QUANTITY_PER_PAGE + 1;
+								totalPageStaff = l->n / QUANTITY_PER_PAGE + 1;
 								ChangePageManageStaff(l);
 								Gotoxy(X_NOTIFY, Y_NOTIFY);
 								cout << "Xoa thanh cong";

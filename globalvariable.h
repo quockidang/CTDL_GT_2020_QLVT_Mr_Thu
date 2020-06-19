@@ -1,5 +1,7 @@
 #pragma once
 
+int currposBillDetail = 0;
+int currposPrecBillDetail = 0;
 
 int currposStaff = 0;
 int currposPrecStaff = 0;

@@ -1,12 +1,13 @@
 #ifndef _BILLDETAILS_H
 #define _BILLDETAILS_H
+#pragma once
 
-
+#include "material.h"
 
 struct BillDetails {
-	char id[11];
+	char MaVT[11];
 	int quantity;
-	float price;
+	int price;
 	int VAT;
 };
 
@@ -81,12 +82,12 @@ void AddTailListBillDetails(LIST_BILLDETAILS &l, BILL_DETAILS data)
 	++l.n;	
 }
 
-NODE_BILLDETAILS* FindBill(LIST_BILLDETAILS l, char* id)
+NODE_BILLDETAILS* FindBillDetail(LIST_BILLDETAILS l, char* id)
 {
 	if(l.pHead == NULL) return NULL;
 	
 	for(NODE_BILLDETAILS* p = l.pHead; p != NULL; p = p->pNext)
-		if (strcmp(p->data.id, id) == 0)
+		if (strcmp(p->data.MaVT, id) == 0)
 			return p;
 	return NULL;
 }
@@ -132,7 +133,7 @@ bool IsDeletedTail(LIST_BILLDETAILS &l)
 	}
 }
 
-bool IsDeletedAfter(LIST_BILLDETAILS &l, NODE_BILLDETAILS*p)
+bool IsDeletedAfter_1(LIST_BILLDETAILS &l, NODE_BILLDETAILS*p)
 {
 	if (p == NULL || p->pNext == NULL) return false;
 	NODE_BILLDETAILS* nodeDeleted = p->pNext;
@@ -140,6 +141,30 @@ bool IsDeletedAfter(LIST_BILLDETAILS &l, NODE_BILLDETAILS*p)
 	delete nodeDeleted;
 	--l.n;
 	return true;
+}
+
+bool IsDeletedBillDetailWithId(LIST_BILLDETAILS &l, BILL_DETAILS data)
+{
+	NODE_BILLDETAILS* nodeDeleted = FindBillDetail(l, data.MaVT);
+	if (nodeDeleted == NULL) return false;
+	if (nodeDeleted == l.pHead) return IsDeletedHead(l);
+	if (nodeDeleted == l.pTail) return IsDeletedTail(l);
+	else
+	{
+		NODE_BILLDETAILS* temp = l.pHead;
+		while (temp->pNext != nodeDeleted)
+			temp = temp->pNext;
+		return IsDeletedAfter_1(l,temp);
+	}
+}
+
+void OutputBillDetails(BILL_DETAILS _bill_detail, int locate)
+{
+	DeleteOldData(sizeof(keyDisplayBillDetail) / sizeof(string), locate);
+	Gotoxy(xKeyDisplay[0] + 1, Y_DISPLAY + 3 + locate); cout << _bill_detail.MaVT;
+	Gotoxy(xKeyDisplay[1] + 1, Y_DISPLAY + 3 + locate); cout << _bill_detail.quantity;
+	Gotoxy(xKeyDisplay[2] + 1, Y_DISPLAY + 3 + locate); cout << _bill_detail.price;
+	Gotoxy(xKeyDisplay[3] + 1, Y_DISPLAY + 3 + locate); cout << _bill_detail.VAT;
 }
 
 

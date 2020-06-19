@@ -77,7 +77,6 @@ do {
 
 string keyDisplayMaterial[4] = { "Ma VT:", "Ten VT:","Don VT:","So LT:" };
 
-string keyStaticMaterial[5] = {"STT", "Ten VE", "CMND", "Ho Ten", "Gioi Tinh"};
 
 int xMainMenu[5] = { 10,45,80,115,145 };
 
@@ -192,8 +191,8 @@ void DeleteMenuAdd()
 }
 
 string keyDisplayStaff[4] = { "Ma NV", "Ho", "Ten", "Gioi tinh" };
-string keyDisplayBill[3] = { "Ma HD", "Ngay Lap", "Loai"};
-
+string keyDisplayBill[3] = { "Ma HD", "Loai", "Ngay Lap"};
+string keyDisplayBillDetail[4] = {"Ma VT", "SL", "Don Gia", "% VAT"};
 
 int xKeyDisplay[7] = {1,20,45,63,80,95, 107};
 

@@ -1,8 +1,10 @@
 #ifndef _MATERIAL_H
 #define _MATERIAL_H
+
 #include<string.h>
 
 #include "display.h"
+
 
 struct Material{  // vat tu
 	char id[11]; //ma VT
