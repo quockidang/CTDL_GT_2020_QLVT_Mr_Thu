@@ -596,6 +596,41 @@ void CreateOrder(PTR_LIST_STAFF &l, TREE_MATERIAL &t)
 		MenuManageBillDetail(ptrBill->_bill.list_billdetails, ptrBill->_bill, t);
 }
 
+void PrintOrder(PTR_LIST_STAFF l)
+{
+	backMenu:
+		string SoHD;
+		Gotoxy(X_ADD, Y_ADD);
+		cout << "Nhap vao ma HD:   ";
+		cin >> SoHD;
+	
+		NODE_BILL * temp = NULL;
+		for(int i = 0; i <= l->n; i++)
+		{
+			for(NODE_BILL* k = l->listStaff[i]->list_bill.pHead; k != NULL; k = k->pNext)
+			{
+				if(strcmp(k->_bill.id, (char *)SoHD.c_str()) == 0)
+				{
+					temp = k;
+				}
+			}
+		}
+		
+		if(temp == NULL)
+		{
+			Gotoxy(X_NOTIFY, Y_NOTIFY);
+			cout << "So HD khong ton tai";
+			Gotoxy(X_ADD, Y_ADD);
+			cout << setw(60) << setfill(' ') << " ";
+			goto backMenu;
+		}
+		
+		Display(keyDisplayBillDetail, sizeof(keyDisplayBillDetail) / sizeof(string));
+		Gotoxy(X_TITLE, Y_TITLE); cout << "Hoa Don: " << temp->_bill.id << " Loai: " << temp->_bill.type;
+		OutputListBD(temp->_bill.list_billdetails);
+		
+		_getch();
+}
 
 void Main_Menu(PTR_LIST_STAFF &ls, TREE_MATERIAL &t)
 {
@@ -610,7 +645,7 @@ void Main_Menu(PTR_LIST_STAFF &ls, TREE_MATERIAL &t)
 			case 1: MenuManageStaff(ls); break;
 			case 2: MenuMaterialManager(t); break;
 			case 3:  CreateOrder(ls, t);
-			case 4:  break;
+			case 4:  PrintOrder(ls);
 			case 5: break;
 			case 6:  break;
 			case 7: break;

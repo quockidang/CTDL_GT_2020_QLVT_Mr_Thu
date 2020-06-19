@@ -13,7 +13,7 @@ const int MAXLIST =100;
 char thucdon [so_item][50] = {"1. Quan Li Nhan Vien               ",
 			                  "2. Quan Li Vt TU                   ",
 			                  "3. Lap hoa don      ",
-								"4. .............                ",
+								"4. In Hoa don dua vao so HD                ",
 								"5. .............                 ",
 								"6. .............. ",
 								"7...................   ",

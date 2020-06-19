@@ -25,7 +25,7 @@ bool DateTimeIsValid(DATETIME dt)
 	if (!DateTimeIsRightFormat(dt)) return false;
 
 	nDayOfMonth[2] = 28;
-	time_t baygio = time(0);
+	time_t baygio = time(0); 
 	tm *ltm = localtime(&baygio);
 	DATETIME dtNow;
 	dtNow.y = 1900 + ltm->tm_year;
@@ -34,13 +34,20 @@ bool DateTimeIsValid(DATETIME dt)
 	dtNow.h = ltm->tm_hour;
 	dtNow.mi = ltm->tm_min;
 
-	if (dt.y < dtNow.y) return false;
-	if ((dt.y == dtNow.y) && (dt.m < dtNow.m))  return false;
+	if (dt.y != dtNow.y) return false; //  so sanh nam
+	if ((dt.m != dtNow.m))  return false;
 	if ((dt.y % 400 == 0) || (dt.y % 4 == 0 && dt.y % 100 != 0))
 		nDayOfMonth[2] = 29;
+	if(dt.d != dtNow.d) return false;
+	
+	if(dt.h < dtNow.h ) return false;
+	if(dt.mi <= dtNow.mi) return false;
+	/*
 	if (dt.y == dtNow.y && dt.m == dtNow.m && dt.d < dtNow.d)return false;
 	if (dt.y == dtNow.y && dt.m == dtNow.m && dt.d == dtNow.d && dt.h < dtNow.h)return false;
 	if (dt.y == dtNow.y && dt.m == dtNow.m && dt.d == dtNow.d && dt.h == dtNow.h && dt.mi <= dtNow.mi)return false;
+	
+	*/
 	return true;
 }
 
