@@ -427,7 +427,7 @@ backMenu:
 				{	
 					clrscr();
 					Gotoxy(X_TITLE, Y_TITLE); cout << "Nhap CTHD cho HD: " << bill.id << " Loai: " << bill.type ;
-					
+					if(l.n == 0) goto backMenu;
 					NODE_BILLDETAILS* k = ChooseBillDetails(l);
 					if(k == NULL) goto backMenu;
 
@@ -644,8 +644,8 @@ void Main_Menu(PTR_LIST_STAFF &ls, TREE_MATERIAL &t)
 		{
 			case 1: MenuManageStaff(ls); break;
 			case 2: MenuMaterialManager(t); break;
-			case 3:  CreateOrder(ls, t);
-			case 4:  PrintOrder(ls);
+			case 3:  CreateOrder(ls, t); break;
+			case 4:  PrintOrder(ls); break;
 			case 5: break;
 			case 6:  break;
 			case 7: break;

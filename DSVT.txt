@@ -2,8 +2,8 @@
 VT01
 Xi Mang
 kg
-0
+12
 VT02
 Da 003
 kg
-200
+224

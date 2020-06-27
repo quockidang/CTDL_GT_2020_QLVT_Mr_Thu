@@ -33,7 +33,8 @@ bool DateTimeIsValid(DATETIME dt)
 	dtNow.d = ltm->tm_mday;
 	dtNow.h = ltm->tm_hour;
 	dtNow.mi = ltm->tm_min;
-
+		cout << dtNow.h << ":" << dtNow.mi << " " << dtNow.d << "/" << dtNow.m << "/" << dtNow.y << endl;
+	cout << dt.h << ":" << dt.mi << " " << dt.d << "/" << dt.m << "/" << dt.y;
 	if (dt.y != dtNow.y) return false; //  so sanh nam
 	if ((dt.m != dtNow.m))  return false;
 	if ((dt.y % 400 == 0) || (dt.y % 4 == 0 && dt.y % 100 != 0))
@@ -41,7 +42,8 @@ bool DateTimeIsValid(DATETIME dt)
 	if(dt.d != dtNow.d) return false;
 	
 	if(dt.h < dtNow.h ) return false;
-	if(dt.mi <= dtNow.mi) return false;
+	if(dt.h == dtNow.h && dt.mi < dtNow.mi) return false;
+	
 	/*
 	if (dt.y == dtNow.y && dt.m == dtNow.m && dt.d < dtNow.d)return false;
 	if (dt.y == dtNow.y && dt.m == dtNow.m && dt.d == dtNow.d && dt.h < dtNow.h)return false;
