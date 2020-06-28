@@ -495,7 +495,7 @@ void InputBill (LIST_BILL &l, BILL &bl, PTR_LIST_STAFF lst, bool isEdited = fals
 		{
 			case 0:
 				CheckMoveAndValidateID(id, isMoveUp, ordinal, isSave, 20, 20);
-				
+				idIsExist = false;
 				for(int i = 0; i <= lst->n; i++)
 				{
 					for(NODE_BILL* k = lst->listStaff[i]->list_bill.pHead; k != NULL; k = k->pNext)
